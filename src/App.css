@@ -1,38 +1,267 @@
-.App {
-  text-align: center;
+/*
+  Globals
+*/
+
+* {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.05rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-image: url("../assets/wallpaper_blue.jpg");
+  background-size: cover;
+  background-color: rgba(118, 117, 117, 0.558);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+h3 {
+  font-size: large;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/*
+  Navbar
+    - Logo
+    - Wallet
+*/
+
+.Navbar {
+  background: rgba(158, 234, 232, 0.25);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.9px);
+  -webkit-backdrop-filter: blur(7.9px);
+  border: 1px solid rgba(211, 206, 206, 0.02);
+  padding: 10px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.Logo {
+  padding: 20px;
+  font-weight: 500;
+  font-size: x-large;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Wallet-btn {
+  color: white;
+  font-weight: 500;
+  border-radius: 16px;
+  background-color: #9ba1f7;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+
+/*
+Hero Section
+- Welcome Slogan
+- Action Component
+- Infobox Component
+*/
+
+.Hero {
+  margin-top: 75px;
+  margin-bottom: 75px;
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+}
+
+/*
+ Shown instead of actions and infobox if user not connected
+*/
+.WelcomeSlogan {
+  text-transform: capitalize;
+  font-size: xx-large;
+  font-weight: 500;
+  grid-column-start: 2;
+  grid-column-end: 10;
+  color: white;
+}
+
+/*
+  Action Component
+    - Input
+    - Deposit Button
+    - Withdraw Button
+*/
+
+.Actions {
+  grid-column-start: 2;
+  grid-column-end: 6;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(24, 1fr);
+}
+
+.AmountInput {
+  color: white;
+  background: rgba(211, 206, 206, 0.11);
+  border-radius: 4px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(211, 206, 206, 1);
+  grid-column-start: 1;
+  grid-column-end: 13;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+
+.Deposit {
+  color: white;
+  background: rgba(73, 226, 12, 0.42);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(211, 206, 206, 0.5);
+  grid-column-start: 1;
+  grid-column-end: 6;
+  grid-row-start: 5;
+  grid-row-end: 7;
+  padding: 15px;
+}
+
+.Withdraw {
+  color: white;
+  background: rgba(226, 12, 12, 0.42);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(11.4px);
+  -webkit-backdrop-filter: blur(11.4px);
+  border: 1px solid rgba(211, 206, 206, 0.5);
+  grid-column-start: 8;
+  grid-column-end: 13;
+  grid-row-start: 5;
+  grid-row-end: 7;
+  padding: 15px;
+}
+
+/*
+  Infobox
+    - Balance
+    - List of Transactions
+*/
+
+.Infobox {
+  box-shadow: 50px 50px;
+  background: rgba(209, 151, 243, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(14.1px);
+  -webkit-backdrop-filter: blur(14.1px);
+  border: 1px solid rgba(211, 206, 206, 0.02);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  grid-column-start: 7;
+  grid-column-end: 18;
+  border-radius: 15px;
+  color: white;
+}
+
+/*
+  Balance inside Infobox
+*/
+
+.Amount {
+  text-align: right;
+}
+
+
+.Balance {
+  padding-top: 0px;
+  margin-bottom: 75px;
+}
+
+.BalanceValue {
+  padding-left: 2rem;
+}
+
+/* 
+  Table of Last Transactions
+*/
+
+.LastTransactions {
+  margin-top: 25px;
+}
+
+.Table {
+  text-align: left;
+
+}
+
+th {
+ text-transform: uppercase;
+ letter-spacing: 0.05rem;
+ padding: 0.5rem 2rem;
+}
+
+td {
+  padding: 0.5rem 2rem;
+}
+
+/*
+  Responsive Design
+*/
+
+@media screen and (max-width:1000px){
+  .Hero {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    grid-template-rows: repeat(18, 1fr);
   }
-  to {
-    transform: rotate(360deg);
+
+  .Infobox {
+    grid-column-start: 2;
+    grid-column-end: 18;
+    grid-row-start: 4;
+    grid-row-end: 18;
+  }
+
+  .Actions {
+    grid-column-start: 8;
+    grid-column-end: 13;
+    grid-row-start: 1;
+    grid-row-end: 4;
+  }
+
+  .AmountInput {
+    grid-row-start: 2;
+    grid-row-end: 6;
+  }
+
+  .Withdraw {
+    grid-row-start: 7;
+    grid-row-end: 12;
+
+  }
+
+  .Deposit {
+    grid-row-start: 7;
+    grid-row-end: 12;
+  }
+}
+
+@media screen and (max-width:800px){
+  .Actions {
+    grid-column-start: 6;
+    grid-column-end: 15;
+  }
+}
+
+@media screen and (max-width:700px){
+  .Actions {
+    grid-column-start: 5;
+    grid-column-end: 16;
+  }
+
+  .ConditionalColumn {
+    display: none;
   }
 }
