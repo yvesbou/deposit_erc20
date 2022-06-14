@@ -20,6 +20,7 @@ export const SmartContractProvider = ({children}) => {
                 setConnectedWallet(accounts[0]);
             } else {
                 console.log("No wallets found");
+                setConnectedWallet("");
             }
             
         } catch (error) {
@@ -42,6 +43,11 @@ export const SmartContractProvider = ({children}) => {
             throw new Error("No Ethereum Object");
         }
     }
+
+    window.ethereum.on('accountsChanged', async () => {
+        console.log('accounts Changed')
+        checkIfWalletIsConnected();
+    });
 
     useEffect(()=> {
         checkIfWalletIsConnected();
