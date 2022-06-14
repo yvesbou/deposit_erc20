@@ -62,7 +62,7 @@ Hero Section
 */
 
 .Hero {
-  margin-top: 75px;
+  margin-top: 60px;
   margin-bottom: 75px;
   display: grid;
   grid-template-columns: repeat(18, 1fr);
