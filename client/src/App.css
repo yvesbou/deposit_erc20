@@ -76,7 +76,7 @@ Hero Section
   font-size: xx-large;
   font-weight: 500;
   grid-column-start: 2;
-  grid-column-end: 10;
+  grid-column-end: 9;
   color: white;
 }
 
