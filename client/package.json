@@ -1,5 +1,5 @@
 {
-  "name": "deposit_synpress",
+  "name": "deposit_erc20",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
