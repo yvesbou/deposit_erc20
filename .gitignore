@@ -2,17 +2,26 @@
 
 # dependencies
 client/node_modules
+contract/node_modules
 client/.pnp
 client/.pnp.js
 
 # testing
 client/coverage
+contract/coverage
+contract/covarage.json
 
 # production
 client/build
 
+#hardhat files
+contract/cache
+contract/artifacts
+contract/typechain
+
 # misc
 client/.DS_Store
+contract/.env
 client/.env.local
 client/.env.development.local
 client/.env.test.local
