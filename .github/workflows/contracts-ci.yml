@@ -1,0 +1,54 @@
+# This worflow will be composed of three jobs:
+# - [not implemented yet] The linter job checks the files linting (javascript, solidity, etc.).
+# - The test job compiles and tests the smart contracts.
+# - [not implemented yet] The audit job installs python, slither-analizer and mythril before performing static analysis on solidity files.
+
+name: Smart Contracts CI Workflow
+
+on:
+  push:
+    paths:
+      # Workflows.
+      - '.github/workflows/*.yml'
+      # Contracts.
+      - 'contract/contracts/**.sol'
+      # Scripts.
+      - 'contract/deploy/*.js'
+      - 'contract/test/*.js'
+      # Configuration files.
+      - 'contract/hardhat.config.js'
+      #- 'contract/helper.config.js'
+      # Dependencies.
+      - 'contract/package.json'
+      - 'contract/package-lock.json'
+
+defaults:
+  run:
+    working-directory: ./contracts
+
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        # needed for deploy (later)
+        contract: ['Fund']
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: 📦 Use Node.js v16.14.2 (LTS)
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.14.2
+        cache: 'npm'
+    - name: 🔧 Install hardhat
+      run: npm i --save-dev hardhat
+    - name: 🛠 Set up env
+      run: cp .env.sample .env
+    - name: ⚙️ Compile
+      run: npm run compile
+    - name: 🧪 Test
+      run: npm run test
