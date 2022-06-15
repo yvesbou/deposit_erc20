@@ -42,8 +42,9 @@ jobs:
     - name: 📦 Use Node.js v16.14.2 (LTS)
       uses: actions/setup-node@v3
       with:
-        node-version: 16.14.2
-        cache: 'npm'
+          node-version: 16.14.2
+          cache: "npm"
+          cache-dependency-path: contract/package-lock.json
     - name: 🔧 Install hardhat
       run: npm i --save-dev hardhat
     - name: 🛠 Set up env
