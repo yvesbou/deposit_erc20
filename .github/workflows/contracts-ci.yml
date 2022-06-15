@@ -48,6 +48,6 @@ jobs:
     - name: 🔧 Install hardhat
       run: npm i --save-dev hardhat
     - name: ⚙️ Compile
-      run: npm run compile
+      run: npx hardhat compile
     - name: 🧪 Test
-      run: npm run test
+      run: npx hardhat test
