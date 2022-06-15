@@ -47,8 +47,6 @@ jobs:
           cache-dependency-path: contract/package-lock.json
     - name: 🔧 Install hardhat
       run: npm i --save-dev hardhat
-    - name: 🛠 Set up env
-      run: cp .env.sample .env
     - name: ⚙️ Compile
       run: npm run compile
     - name: 🧪 Test
