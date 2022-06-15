@@ -24,7 +24,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./contracts
+    working-directory: ./contract
 
 concurrency: 
   group: ${{ github.ref }}
