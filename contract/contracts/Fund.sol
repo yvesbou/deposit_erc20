@@ -1,12 +1,12 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.4;
 
 import "hardhat/console.sol";
 
 contract Fund {
-    mapping(address => uint256) addressToFunds;
-    mapping(address => bool) addressToFundingStatus;
-    address[] funders;
+    mapping(address => uint256) public addressToFunds;
+    mapping(address => bool) public addressToFundingStatus;
+    address[] public funders;
 
     // USDC token parameters.
     address public usdcAddress;
@@ -28,10 +28,10 @@ contract Fund {
      * @notice Deposit USDC to the Fund Contract.
      * @param _amount The Amount of USDC token send to the Fund.
      */
-    function deposit(uint256 _amount) external returns(uint256) {
+    function deposit(uint256 _amount) external {
         require(_amount > 0, "The amount should be greater than 0");
-        require(usdcContract.balanceOf(msg.sender) > 0, "The amount should be greater than 0");
-        require(usdcContract.transferFrom(msg.sender, address(this), _amount), "Transaction declined");
+        require(usdcContract.balanceOf(msg.sender) >= _amount, "The USDC balance should be at least the specified amount");
+        require(usdcContract.transferFrom(msg.sender, address(this), _amount), "Transaction declined by user");
 
         addressToFunds[msg.sender] += _amount;
         emit Deposit(_amount, msg.sender);
