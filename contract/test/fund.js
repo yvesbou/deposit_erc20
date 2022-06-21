@@ -57,31 +57,28 @@ describe("Fund Contract Tests", () => {
 
     
     it("The amount to deposit should be larger than 0", async () => {
-      
-      // does it fail, the user doesn't even have so much
+
       txn = await USDCContract.connect(user).approve(fund.address, ethers.utils.parseEther("5"));
       await txn.wait();
-
-      await expect(fund.connect(user).deposit(ethers.utils.parseEther("0"))).to.be.revertedWith("The amount should be greater than 0");
+      let amountToBeDeposited = ethers.utils.parseEther("0");
+      await expect(fund.connect(user).deposit(amountToBeDeposited)).to.be.revertedWith(`InsufficientAmount(${amountToBeDeposited})`);
 
     })
 
-    it("The USDC balance of user should be greater than 0", async () => {
+    it("The USDC balance of user should be greater than amount to be deposited", async () => {
       // user balance is 0
-      let balance = await USDCContract.balanceOf(user.address);
-      expect(balance).to.equal(0);
+      let userBalance = await USDCContract.balanceOf(user.address);
+      expect(userBalance).to.equal(0);
+
+      let amount = ethers.utils.parseEther("5");
 
       // User approves 5 USDC (first approval, then deposit to contract)
-      txn = await USDCContract.connect(user).approve(fund.address, ethers.utils.parseEther("5"));
+      txn = await USDCContract.connect(user).approve(fund.address, amount);
       await txn.wait();
 
-      await expect(fund.connect(user).deposit(ethers.utils.parseEther("5"))).to.be.revertedWith("The USDC balance should be at least the specified amount");
+      await expect(fund.connect(user).deposit(amount)).to.be.revertedWith(`InsufficientBalance(${userBalance}, ${amount})`);
 
     })
 
-    it("Transaction should fail, if not approved", async () => {
-      // missing
- 
-    })
   }) 
 });

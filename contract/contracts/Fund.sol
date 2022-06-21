@@ -15,23 +15,27 @@ contract Fund {
     event Deposit(uint256 amount, address indexed sender);
     event NewFunder(address indexed funder);
 
-    /**
-     * @notice Initialise the contract
-     * @param _usdcAddress address of the USDC Token Contract   
-     */
+     /// @notice Initialise the contract
+     /// @param _usdcAddress address of the USDC Token Contract   
     constructor(address _usdcAddress) {
         usdcAddress = _usdcAddress;
         usdcContract = IERC20(usdcAddress);
     }
 
-    /**
-     * @notice Deposit USDC to the Fund Contract.
-     * @param _amount The Amount of USDC token send to the Fund.
-     */
+    /// @notice Deposit USDC to the Fund Contract.
+    /// @param _amount The Amount of USDC token send to the Fund.
     function deposit(uint256 _amount) external {
-        require(_amount > 0, "The amount should be greater than 0");
-        require(usdcContract.balanceOf(msg.sender) >= _amount, "The USDC balance should be at least the specified amount");
-        require(usdcContract.transferFrom(msg.sender, address(this), _amount), "Transaction declined by user");
+
+        if (_amount <= 0) {
+            revert InsufficientAmount({depositAmount: _amount});
+        }
+        uint256 userBalance = usdcContract.balanceOf(msg.sender);
+        if (userBalance < _amount) {
+            revert InsufficientBalance({available: userBalance, required: _amount});
+        }
+        if (!usdcContract.transferFrom(msg.sender, address(this), _amount)){
+            revert TransactionDeclined();
+        }
 
         addressToFunds[msg.sender] += _amount;
         emit Deposit(_amount, msg.sender);
@@ -42,6 +46,24 @@ contract Fund {
             emit NewFunder(msg.sender);
         }
     }
+
+    /***********************************************************************************************
+                                            Custom errors
+    ***********************************************************************************************/
+
+    /// Insufficient balance for transfer. Needed `required` but only
+    /// `available` available.
+    /// @param available balance available.
+    /// @param required requested amount to transfer.
+    error InsufficientBalance(uint256 available, uint256 required);
+
+    /// User wanted to deposit insufficient amount
+    /// @param depositAmount amount tried to deposit
+    error InsufficientAmount(uint256 depositAmount);
+
+    /// User declined transaction
+    error TransactionDeclined();
+
 }
 
 // Interfaces
