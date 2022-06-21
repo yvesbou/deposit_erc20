@@ -1,6 +1,6 @@
-const hre = require("hardhat");
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
+import hre from "hardhat";
+import { expect } from "chai";
+import { ethers } from "hardhat";
 
 describe("Fund Contract Tests", () => {
   let USDCContract, fund, owner, user;
