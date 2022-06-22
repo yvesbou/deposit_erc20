@@ -8,14 +8,14 @@ pragma solidity ^0.8.4;
  */
 contract USDCToken {
     // Token parameters.
-    string public constant name = "USDCStableCoin";
-    string public constant symbol = "USDC";
-    uint8 public constant decimals = 18;
+    string public constant NAME = "USDCStableCoin";
+    string public constant SYMBOL = "USDC";
+    uint8 public constant DECIMALS = 18;
 
     // Users parameters.
-    mapping(address => uint256) addressToBalance;
-    mapping(address => mapping(address => uint256)) addressToAllowance;
-    uint256 totalSupply_;
+    mapping(address => uint256) public addressToBalance;
+    mapping(address => mapping(address => uint256)) public addressToAllowance;
+    uint256 public totalSupply_;
 
     // Access-control parameters.
     address public owner;
@@ -39,8 +39,8 @@ contract USDCToken {
     }
 
     function transfer(address _receiverAddress, uint _amount) public returns (bool) {
-        require(_amount >= 0);
-        require(_amount <= addressToBalance[msg.sender]);
+        require(_amount >= 0, "Insufficent Amount");
+        require(_amount <= addressToBalance[msg.sender], "Amount higher than balance");
 
         addressToBalance[msg.sender] -= _amount;
         addressToBalance[_receiverAddress] += _amount;
@@ -50,8 +50,8 @@ contract USDCToken {
     }
 
     function approve(address _delegateAddress, uint _amount) public returns (bool) {
-        require(_delegateAddress != address(0));
-        require(_amount >= 0);
+        require(_delegateAddress != address(0), "zero address is not allowed");
+        require(_amount >= 0, "amount should be non negative");
 
         addressToAllowance[msg.sender][_delegateAddress] = _amount;
         emit Approval(msg.sender, _delegateAddress, _amount);
@@ -64,8 +64,8 @@ contract USDCToken {
     }
 
     function transferFrom(address _senderAddress, address _receiverAddress, uint _amount) public returns (bool) {
-        require(_amount <= addressToBalance[_senderAddress]);
-        require(_amount <= addressToAllowance[_senderAddress][msg.sender]);
+        require(_amount <= addressToBalance[_senderAddress], "Amount higher than balance");
+        require(_amount <= addressToAllowance[_senderAddress][msg.sender], "Amount higher than allowed");
 
         addressToBalance[_senderAddress] -= _amount;
         addressToBalance[_receiverAddress] += _amount;
