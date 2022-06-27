@@ -3,10 +3,10 @@ describe("Test User Login", () => {
 
     it("App connects with Metamask", () => {
         cy.visit("http://localhost:3000");
-        cy.contains('Connect Wallet').click();
+        cy.contains('Connect Wallet').click().blur();
         cy.acceptMetamaskAccess().should("be.true");
         // cy.confirmMetamaskSignatureRequest().should("be.true");
         // Deposit Button is indicator that login worked
-        cy.get('button').contains('Deposit').should("be.true");
+        cy.get('[data-cy=deposit-to-contract-button]').should('be.visible');
     })
 })
