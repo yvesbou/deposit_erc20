@@ -1,21 +1,22 @@
-name: Cypress Tests
+name: Client CI
 
 on: [push]
 
 jobs:
-  cypress-run:
+
+  build:
     runs-on: ubuntu-latest
     steps:
-      # 'Checkout' maintained by github doesn't need any configuration before
-      # loads in our repo into the pipeline
       - name: Checkout
         uses: actions/checkout@v2
-      # 'Cypress run' maintained by Cypress, makes sure all tests are ran
-      - name: Cypress run
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: client
-          # build: npm run build
-          start: npm run start
+      - name: Install Dep
+        uses: actions/setup-node@v3
+        run: npm install
+        cache-dependency-path: client/package-lock.json
+  
+  e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: run e2e
         run: npm run e2e-test
