@@ -6,13 +6,16 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
+      # 'Checkout' maintained by github doesn't need any configuration before
+      # loads in our repo into the pipeline
       - name: Checkout
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+      # 'Cypress run' maintained by Cypress, makes sure all tests are ran
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
           working-directory: client
           # build: npm run build
           start: npm run start
+      - name: run e2e
+        run: npm run e2e-test
