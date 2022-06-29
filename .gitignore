@@ -27,6 +27,8 @@ client/.env.development.local
 client/.env.test.local
 client/.env.production.local
 
+contract/deposit_erc20-slither
+
 client/npm-debug.log*
 client/yarn-debug.log*
 client/yarn-error.log*
