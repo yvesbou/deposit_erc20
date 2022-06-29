@@ -2,6 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Fund {
     mapping(address => uint256) public addressToFunds;
@@ -64,12 +65,4 @@ contract Fund {
     /// User declined transaction
     error TransactionDeclined();
 
-}
-
-// Interfaces
-
-interface IERC20 {
-    function transfer(address receiverAddress, uint amount) external returns (bool);
-    function transferFrom(address senderAddress, address receiverAddress, uint amount) external returns (bool);
-    function balanceOf(address userAddress) external view returns (uint);
 }
