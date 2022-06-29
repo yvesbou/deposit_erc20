@@ -9,11 +9,10 @@ describe("Fund Contract Tests", () => {
     
 		// setting up testing accounts
 		[owner, user] = await ethers.getSigners();
-		let usdcTreasuryAmount = ethers.utils.parseEther("100");
 
 		// setup USDC contract
-		const USDCTokenFactory = await ethers.getContractFactory("USDCToken");
-		USDCContract = await USDCTokenFactory.deploy(usdcTreasuryAmount); // 100 USDC
+		const USDCStablecoinFactory = await ethers.getContractFactory("USDCStablecoin");
+		USDCContract = await USDCStablecoinFactory.deploy();
 		await USDCContract.deployed();
 
 		// setup the Fund contract
@@ -77,6 +76,21 @@ describe("Fund Contract Tests", () => {
 
 			await expect(fund.connect(user).deposit(amount)).to.be.revertedWith(`InsufficientBalance(${userBalance}, ${amount})`);
 
+		});
+
+		it("Transaction should fail, if not approved", async () => {
+			// setup user USDC balance for interaction with contract
+			let balance = await USDCContract.balanceOf(user.address);
+			expect(balance).to.equal(0);
+      
+			let txn = await USDCContract.transfer(user.address, ethers.utils.parseEther("5")); // user1 received 5 USDC
+			await txn.wait();
+      
+			balance = await USDCContract.balanceOf(user.address);
+			expect(balance).to.equal(ethers.utils.parseEther("5"));
+
+			expect(fund.connect(user).deposit(ethers.utils.parseEther("5"))).to.be.revertedWith("ERC20: insufficient allowance");
+			
 		});
 
 	}); 
