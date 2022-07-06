@@ -33,7 +33,7 @@ Create a virtual environment for python and install slither. Make sure to add th
 python3 -m venv venv_audit-tools
 cd venv_audit-tools
 source bin/activate
-pip install slither-analyzer
+pip3 install slither-analyzer
 ```
 
 ## Slither Resources
