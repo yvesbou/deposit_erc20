@@ -63,7 +63,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: contract/package-lock.json
     - name: 🔧 Install dependencies
-        run: npm install
+      run: npm install
     - name: 🔧 Install python
       uses: actions/setup-python@v3
       with:
