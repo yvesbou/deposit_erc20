@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.4;
 
-import "hardhat/console.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Fund {
     mapping(address => uint256) public addressToFunds;
@@ -18,6 +18,9 @@ contract Fund {
      /// @notice Initialise the contract
      /// @param _usdcAddress address of the USDC Token Contract   
     constructor(address _usdcAddress) {
+        if(_usdcAddress == address(0)) {
+            revert ZeroAddressSpecified();
+        }
         usdcAddress = _usdcAddress;
         usdcContract = IERC20(usdcAddress);
     }
@@ -64,12 +67,6 @@ contract Fund {
     /// User declined transaction
     error TransactionDeclined();
 
-}
-
-// Interfaces
-
-interface IERC20 {
-    function transfer(address receiverAddress, uint amount) external returns (bool);
-    function transferFrom(address senderAddress, address receiverAddress, uint amount) external returns (bool);
-    function balanceOf(address userAddress) external view returns (uint);
+    /// User didn't specify an address
+    error ZeroAddressSpecified();
 }
