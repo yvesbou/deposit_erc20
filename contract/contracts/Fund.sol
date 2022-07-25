@@ -18,6 +18,9 @@ contract Fund {
      /// @notice Initialise the contract
      /// @param _usdcAddress address of the USDC Token Contract   
     constructor(address _usdcAddress) {
+        if(_usdcAddress == address(0)) {
+            revert ZeroAddressSpecified();
+        }
         usdcAddress = _usdcAddress;
         usdcContract = IERC20(usdcAddress);
     }
@@ -64,4 +67,6 @@ contract Fund {
     /// User declined transaction
     error TransactionDeclined();
 
+    /// User didn't specify an address
+    error ZeroAddressSpecified();
 }
