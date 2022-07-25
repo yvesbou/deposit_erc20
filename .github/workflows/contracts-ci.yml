@@ -31,6 +31,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: 📦 Use Node.js v16.14.2 (LTS)
+      uses: actions/setup-node@v3
+      with:
+          node-version: 16.14.2
+          cache: "npm"
+          cache-dependency-path: contract/package-lock.json
+    - name: ES Lint
+      run: npx eslint '**/*.{js,ts}'
+    - name: SolHint
+      run: npx solhint 'contracts/**/*.sol'
   test:
     strategy:
       matrix:
