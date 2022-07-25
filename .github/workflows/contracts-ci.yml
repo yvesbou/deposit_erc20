@@ -81,4 +81,4 @@ jobs:
     - name: 🐍 Run slither
       run: slither .
     - name: 🛡️ Run mythril
-      run: myth analyze contracts/Fund.sol
+      run: myth analyze contracts/Fund.sol --solc-json remappings.json
