@@ -19,10 +19,10 @@ npx hardhat test
 slither .
 
 # need to specify paths because of virtual environment, otherwise run just myth analyze contracts/Fund.sol
-python3 venv_audit-tools/bin/myth analyze contracts/Fund.sol
+python3 venv_audit-tools/bin/myth analyze contracts/Fund.sol --solc-json remappings.json
 
 # for more verbosity run going from -v0 (default) to -v5
-python3 venv_audit-tools/bin/myth -v4 analyze contracts/Fund.sol
+python3 venv_audit-tools/bin/myth -v4 analyze contracts/Fund.sol --solc-json remappings.json
 
 ```
 
