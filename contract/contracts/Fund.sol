@@ -29,6 +29,7 @@ contract Fund {
     /// @param _amount The Amount of USDC token send to the Fund.
     function deposit(uint256 _amount) external {
 
+        // checks
         if (_amount <= 0) {
             revert InsufficientAmount({depositAmount: _amount});
         }
@@ -36,10 +37,8 @@ contract Fund {
         if (userBalance < _amount) {
             revert InsufficientBalance({available: userBalance, required: _amount});
         }
-        if (!usdcContract.transferFrom(msg.sender, address(this), _amount)){
-            revert TransactionDeclined();
-        }
 
+        // state updates and events
         addressToFunds[msg.sender] += _amount;
         emit Deposit(_amount, msg.sender);
 
@@ -47,6 +46,11 @@ contract Fund {
             funders.push(msg.sender);
             addressToFundingStatus[msg.sender] = true;
             emit NewFunder(msg.sender);
+        }
+        
+        // external calls
+        if (!usdcContract.transferFrom(msg.sender, address(this), _amount)){
+            revert TransactionDeclined();
         }
     }
 
