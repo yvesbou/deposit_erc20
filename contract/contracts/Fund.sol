@@ -13,6 +13,7 @@ contract Fund {
     IERC20 public usdcContract;
 
     event Deposit(uint256 amount, address indexed sender);
+    event Withdraw(uint256 amount, address indexed receiver);
     event NewFunder(address indexed funder);
 
      /// @notice Initialise the contract
@@ -59,6 +60,7 @@ contract Fund {
     function withdraw(uint256 _amount) external {
         
         // checks
+
         if (_amount <= 0) {
             revert InsufficientAmount({depositAmount: _amount});
         }
@@ -69,11 +71,23 @@ contract Fund {
         }
 
         if (addressToFunds[address(msg.sender)] < _amount) {
+            // the user wanted to withdraw more than deposited
             revert InsufficientBalance({available: addressToFunds[address(msg.sender)], required: _amount});
         }
 
-        // TODO State Updates
+        // state updates and events
 
+        addressToFunds[msg.sender] -= _amount;
+        emit Withdraw(_amount, msg.sender);
+        // mark address as non-funder if balance fully withdraw
+        if (addressToFunds[address(msg.sender)] == _amount) {
+            addressToFundingStatus[address(msg.sender)] = false;
+        }
+
+        // call external contract
+        if (!usdcContract.transfer(msg.sender, _amount)) {
+            revert TransactionDeclined();
+        }
     }
 
     /***********************************************************************************************
