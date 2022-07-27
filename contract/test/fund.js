@@ -93,5 +93,46 @@ describe("Fund Contract Tests", () => {
 			
 		});
 
-	}); 
+	});
+
+	describe("Withdraw", () => {
+		
+		it("The User should be allowed to withdraw the deposited amount", async () => {
+
+			// setup user USDC balance for interaction with the contract
+			let balance = await USDCContract.balanceOf(user.address);
+			expect(balance).to.equal(0);
+      
+			let txn = await USDCContract.transfer(user.address, ethers.utils.parseEther("5")); // user1 received 5 USDC
+			await txn.wait();
+      
+			balance = await USDCContract.balanceOf(user.address);
+			expect(balance).to.equal(ethers.utils.parseEther("5"));
+
+			// User deposits 5 USDC (first approval, then deposit to contract)
+			txn = await USDCContract.connect(user).approve(fund.address, ethers.utils.parseEther("5"));
+			await txn.wait();
+      
+			txn = await fund.connect(user).deposit(ethers.utils.parseEther("5"));
+			await txn.wait();
+      
+			// funders and addressToFunds are the default getters solidity is generatings for us
+			let amountFunded = await fund.addressToFunds(user.address);
+			let funderAddress = await fund.funders(0); 
+
+			// user is now part of the funders
+			expect(funderAddress).to.equal(user.address);
+      
+			// user has deposited 5 USDC
+			expect(amountFunded).to.equal(ethers.utils.parseEther("5"));
+
+			// withdraw
+			txn = await fund.connect(user).withdraw(ethers.utils.parseEther("5"));
+			await txn.wait();
+
+			// user has deposited 0 USDC
+			amountFunded = await fund.addressToFunds(user.address);
+			expect(amountFunded).to.equal(ethers.utils.parseEther("0"));
+		})
+	})
 });
