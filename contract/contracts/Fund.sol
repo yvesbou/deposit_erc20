@@ -54,6 +54,28 @@ contract Fund {
         }
     }
 
+    /// @notice Withdraw USDC from the Fund Contract.
+    /// @param _amount The Amount of USDC tokens to withdraw from the Fund.
+    function withdraw(uint256 _amount) external {
+        
+        // checks
+        if (_amount <= 0) {
+            revert InsufficientAmount({depositAmount: _amount});
+        }
+
+        if (!addressToFundingStatus[address(msg.sender)]) {
+            // this address has not funded the contract
+            revert UserNotAFunder();
+        }
+
+        if (addressToFunds[address(msg.sender)] < _amount) {
+            revert InsufficientBalance({available: addressToFunds[address(msg.sender)], required: _amount});
+        }
+
+        // TODO State Updates
+
+    }
+
     /***********************************************************************************************
                                             Custom errors
     ***********************************************************************************************/
@@ -70,6 +92,9 @@ contract Fund {
 
     /// User declined transaction
     error TransactionDeclined();
+
+    /// User is not a funder of this contract
+    error UserNotAFunder();
 
     /// User didn't specify an address
     error ZeroAddressSpecified();
