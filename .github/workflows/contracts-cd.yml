@@ -1,0 +1,28 @@
+# This worflow deploys and verifies the smart contracts to the Goerli Testnet
+name: Smart Contracts CD Workflow
+
+# Configure the workflow to run manually.
+on:
+  workflow_dispatch:
+
+defaults:
+ run:
+  working-directory: ./contracts
+
+jobs:
+  deploy-to-goerli:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: 📦 Use Node.js v16.14.2 (LTS)
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.14.2
+        cache: 'npm'
+        cache-dependency-path: contracts/package-lock.json
+    - name: 🔧 Install npm dependencies
+      run: npm install
+    - name: 🏠 Deploy to a localhost blockchain
+      run: npx hardhat run scripts/deploy.js
+    - name: 🚀 Deploy to Ethereum Goerli testnet
+      run: npx hardhat run scripts/deploy.js --network goerli
