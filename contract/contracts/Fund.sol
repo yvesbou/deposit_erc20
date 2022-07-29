@@ -1,6 +1,8 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.4;
 
+// @author yvesbou
+
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Fund {
@@ -8,7 +10,7 @@ contract Fund {
     mapping(address => bool) public addressToFundingStatus;
     address[] public funders;
 
-    // USDC token parameters.
+    // USDC token parameters
     address public usdcAddress;
     IERC20 public usdcContract;
 
