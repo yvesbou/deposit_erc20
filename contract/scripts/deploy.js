@@ -1,20 +1,44 @@
-const hre = require("hardhat");
+// const { ethers } = require("hardhat");
+const hre = require("hardhat")
+const { fundConfig } = require("../helper.config");
 
 async function main() {
+	let usdcTokenAddress;
+    console.log(hre.network.config.chainId)
 
-  const Fund = await hre.ethers.getContractFactory("Fund");
-  const fund = await Fund.deploy(unlockTime, { value: lockedAmount });
+	if (hre.network.config.chainId == 31337) {
+		// deploying on localhost so we deploy the mock contracts.
 
-  await fund.deployed();
- 
-  console.log(
-    `Fund deployed to ${fund.address}`
-  );
+		// Deploy the MockUsdcToken contract.
+		const usdcTokenContractFactory = await hre.ethers.getContractFactory("USDCStablecoin");
+        // const totalSupplyUSDC = ethers.utils.parseEther("10000");
+		usdcTokenContract = await usdcTokenContractFactory.deploy();
+        console.log('here')
+		await usdcTokenContract.deployed();
+		console.log("MockUSDCStablecoin contract deployed to:", usdcTokenContract.address);
+		usdcTokenAddress = usdcTokenContract.address;
+	} else {
+		// Retrieve network-specific parameters.
+		const chainId = hre.network.config.chainId;
+        consolge.log(chainId);
+		usdcTokenAddress = fundConfig.network[chainId].usdcTokenAddress;
+	}
+
+    const Fund = await ethers.getContractFactory("Fund");
+	const fund = await Fund.deploy(usdcTokenAddress);
+
+    await fund.deployed();
+
+	console.log("Fund deployed to:", fund.address);
+
+    // Verify the contract.
+	console.log(`Verify with: $ npx hardhat verify ${fund.address} ${usdcTokenAddress} --contract contracts/Fund.sol:Fund --network ${hre.network.name}`);
+
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+	.then(() => process.exit(0))
+	.catch((error) => {
+		console.error(error);
+		process.exit(1);
+	});
