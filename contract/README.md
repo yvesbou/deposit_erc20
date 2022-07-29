@@ -38,8 +38,9 @@ npx hardhat run scripts/deploy.js
 # deploy to Goerli
 npx hardhat run scripts/deploy.js --network goerli
 
-# Take note of the address and the unlock time and run the verify task with them:
-npx hardhat verify --network goerli <address> <unlock time>
+# manually verify smart contract on etherscan, 0x07865c6E87B9F70255377e024ace6630C1Eaa37F (USDC address Goerli, parameter for constructor)
+npx hardhat verify --network goerli <contract address> 0x07865c6E87B9F70255377e024ace6630C1Eaa37F
+
 ```
 
 ## Verifying the Contract

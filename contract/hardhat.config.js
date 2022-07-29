@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-etherscan")
 
 module.exports = {
 	defaultNetwork: 'hardhat',
@@ -18,8 +19,9 @@ module.exports = {
 	  },
 	networks: {
 		goerli: {
-		  url: process.env.GOERLI_RPC_URL,
-		  accounts: [process.env.GOERLI_PRIVATE_KEY],
+			chainId: 5,
+		  	url: process.env.GOERLI_RPC_URL,
+		  	accounts: [process.env.GOERLI_PRIVATE_KEY],
 		},
 	},
 	etherscan: {
