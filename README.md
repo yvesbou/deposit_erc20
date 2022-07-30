@@ -8,3 +8,6 @@ The motivation of this small project is to practice Git workflow, using tools th
 React Application
 ## Contract
 Smart Contract in Solidity
+
+Currently deployed to (0x3edbe3aac0ccddbb65cf28e43b64fb56c32db362)[https://goerli.etherscan.io/address/0x3edbe3aac0ccddbb65cf28e43b64fb56c32db362#code]
+

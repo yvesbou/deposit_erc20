@@ -1,4 +1,4 @@
-# Smart Contracts
+# Smart Contract
 
 This Project uses, ESlint, Solhint, Hardhat, Slither and Mythril.
 
@@ -16,6 +16,8 @@ npx hardhat compile
 npx hardhat clean
 npx hardhat test
 
+#🕵️‍♂️ Audits
+
 slither .
 
 # need to specify paths because of virtual environment, otherwise run just myth analyze contracts/Fund.sol
@@ -25,6 +27,24 @@ python3 venv_audit-tools/bin/myth analyze contracts/Fund.sol --solc-json remappi
 python3 venv_audit-tools/bin/myth -v4 analyze contracts/Fund.sol --solc-json remappings.json
 
 ```
+
+## Deploy and Run Contract
+```shell
+# run local node
+npx hardhat node
+
+# deploy to local
+npx hardhat run scripts/deploy.js
+# deploy to Goerli
+npx hardhat run scripts/deploy.js --network goerli
+
+# manually verify smart contract on etherscan, 0x07865c6E87B9F70255377e024ace6630C1Eaa37F (USDC address Goerli, parameter for constructor)
+npx hardhat verify --network goerli <contract address> 0x07865c6E87B9F70255377e024ace6630C1Eaa37F
+
+```
+
+## Verifying the Contract
+https://hardhat.org/hardhat-runner/docs/guides/verifying
 
 ## How to install slither for this project
 
@@ -45,7 +65,7 @@ pip3 install slither-analyzer
 Following this 👇 Make sure to still work inside the python virtual environment.
 https://mythril-classic.readthedocs.io/en/master/installation.html
 
-### PyPI on Mac OS
+### With PyPI on Mac OS
 ```shell
 brew update
 brew upgrade
@@ -55,7 +75,7 @@ brew install solidity
 pip3 install mythril
 ```
 
-### PyPI on Ubuntu
+### With PyPI on Ubuntu
 ```shell
 # Update
 sudo apt update
@@ -73,7 +93,7 @@ pip3 install mythril
 myth --version
 ```
 
-## Add remappings.json
+### Add remappings.json for Mythril
 As mentioned in this issue https://github.com/ConsenSys/mythril/issues/1478#issuecomment-897462501. The solc binary and thus also myth do not know the location of @openzepplin. You have to map this to explicit path to the imported contract. You can create file with remappings(I created in project directory) with this content:
 
 ```json
