@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.4;
 
-// @author yvesbou
+// @author Yves Boutellier
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 

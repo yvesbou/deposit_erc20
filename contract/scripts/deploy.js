@@ -3,7 +3,6 @@ const { fundConfig } = require("../helper.config");
 
 async function main() {
 	let usdcTokenAddress;
-	console.log(hre.network.config)
 	if (hre.network.config.chainId == 31337) {
 		// Deploying on localhost...
 		// Deploy the Mock USDCStablecoin contract
@@ -19,15 +18,13 @@ async function main() {
 	}
     const Fund = await hre.ethers.getContractFactory("Fund");
 	const fund = await Fund.deploy(usdcTokenAddress);
-    console.log(fund)
-    console.log('here')
-    await fund.deployed(); // fails here
+    await fund.deployed();
 
 	console.log("Fund deployed to:", fund.address);
 
     // Verify the contract
     if (hre.network.config.chainId != 31337) {
-        await fund.deployTransaction.wait(6);
+        await fund.deployTransaction.wait(10);
         await hre.run("verify:verify", {
             address: fund.address,
             constructorArguments: [usdcTokenAddress]
