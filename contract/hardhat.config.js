@@ -18,11 +18,6 @@ module.exports = {
 		coinmarketcap: process.env.COINMARKETCAP_API_KEY || "",
 	},
 	networks: {
-		mumbai: {
-			chainId: 80001,
-			url: process.env.MUMBAI_RPC_URL,
-			accounts: [process.env.GOERLI_PRIVATE_KEY]
-		},
 		goerli: {
 			chainId: 5,
 			url: process.env.GOERLI_RPC_URL,
