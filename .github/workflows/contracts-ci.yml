@@ -102,3 +102,7 @@ jobs:
     - name: 🛡️ Run mythril
       run: myth analyze contracts/Fund.sol --solc-json remappings.json
       continue-on-error: true
+    env:
+      GOERLI_RPC_URL: ${{ secrets.GOERLI_RPC_URL }}
+      ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+      GOERLI_PRIVATE_KEY: ${{ secrets.GOERLI_PRIVATE_KEY }}
